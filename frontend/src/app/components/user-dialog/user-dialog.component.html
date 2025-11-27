@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Novo Cliente</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="formulario-user">
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Nome Completo</mat-label>
+      <input matInput formControlName="nome" placeholder="Ex: João da Silva">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>CPF (somente números)</mat-label>
+      <input matInput formControlName="cpf" placeholder="12345678900" maxlength="11">
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>Data de Nascimento</mat-label>
+        <input matInput formControlName="dataNascimento" placeholder="dd-mm-aaaa">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>Endereço</mat-label>
+        <input matInput formControlName="endereco" placeholder="Rua, Bairro">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Definir Senha</mat-label>
+      <input matInput type="password" formControlName="senha" placeholder="Mínimo 4 dígitos">
+      <mat-error>Senha obrigatória</mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" (click)="salvar()" [disabled]="form.invalid || loading">
+    {{ loading ? 'Salvando...' : 'Cadastrar' }}
+  </button>
+</mat-dialog-actions>

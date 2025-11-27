@@ -1,0 +1,78 @@
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f5f7fa; /* Cinza bem suave e moderno */
+  min-height: 100vh;
+}
+
+.main-card {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 12px; /* Cantos arredondados modernos */
+}
+
+.header-icon mat-icon {
+  background-color: #3f51b5;
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
+  width: 40px; /* Ajuste para o padding */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabela-contas {
+  width: 100%;
+  margin-top: 20px;
+
+  th {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.9rem;
+  }
+}
+
+.linha-tabela:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.texto-destaque {
+  font-weight: 500;
+  color: #333;
+}
+
+.saldo-valor {
+  color: #2e7d32; /* Verde sucesso */
+  font-weight: bold;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  font-style: italic;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  color: #f44336;
+}
+.chart-container {
+  width: 100%;
+  max-width: 600px; /* Não deixa ficar gigante */
+  margin: 0 auto 30px auto; /* Centraliza e dá espaço em baixo */
+  text-align: center;
+  
+  h3 {
+    color: #555;
+    margin-bottom: 10px;
+  }
+} 

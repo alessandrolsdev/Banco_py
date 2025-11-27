@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Nova Transferência (PIX)</h2>
+<h3 class="conta-info">De: Conta #{{ data.numeroContaOrigem }}</h3>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="form-transfer">
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Conta de Destino (Número)</mat-label>
+      <input matInput type="number" formControlName="destino" placeholder="Ex: 2">
+      <mat-icon matSuffix>account_circle</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Valor (R$)</mat-label>
+      <input matInput type="number" formControlName="valor" placeholder="0.00">
+      <span matTextPrefix>R$&nbsp;</span>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-flat-button color="accent" (click)="confirmar()" [disabled]="loading || form.invalid">
+    {{ loading ? 'Enviando...' : 'Transferir' }}
+  </button>
+</mat-dialog-actions>

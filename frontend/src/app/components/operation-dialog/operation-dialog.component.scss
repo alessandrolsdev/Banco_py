@@ -1,0 +1,14 @@
+.form-operacao {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  padding-top: 10px;
+  gap: 10px;
+}
+
+.conta-info {
+  margin-top: 0;
+  color: #666;
+  font-size: 0.9rem;
+  padding: 0 24px;
+}

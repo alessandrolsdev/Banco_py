@@ -1,0 +1,40 @@
+.loading-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #777;
+  
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 10px;
+    opacity: 0.5;
+  }
+}
+
+.tabela-container {
+  max-height: 300px;
+  overflow: auto; /* Permite rolar se tiver muitos extratos */
+}
+
+.tabela-extrato {
+  width: 100%;
+}
+
+.entrada { color: #2e7d32; font-weight: 500; }
+.saida { color: #c62828; font-weight: 500; }
+
+.valor-positivo { color: #2e7d32; }
+.valor-negativo { color: #c62828; }
+
+.saldo-final {
+  text-align: right;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  color: #333;
+  font-size: 1.2rem;
+}

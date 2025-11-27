@@ -1,0 +1,36 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Banco New 🏦</mat-card-title>
+      <mat-card-subtitle>Acesso Seguro</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="entrar()">
+        
+        <mat-form-field appearance="outline">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf" placeholder="Seu CPF">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="senha" placeholder="Sua Senha">
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="btn-entrar" [disabled]="loading || form.invalid">
+          {{ loading ? 'Entrando...' : 'ACESSAR CONTA' }}
+        </button>
+
+        <div class="divisor">
+          <span>ou</span>
+        </div>
+
+        <button type="button" mat-stroked-button color="accent" (click)="abrirCadastro()">
+          Criar Nova Conta
+        </button>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

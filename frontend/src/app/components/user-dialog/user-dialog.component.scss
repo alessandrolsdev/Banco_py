@@ -1,0 +1,21 @@
+.formulario-user {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px; /* Largura mínima para não ficar espremido */
+  padding-top: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+/* Classe para colocar inputs um ao lado do outro */
+.row {
+  display: flex;
+  gap: 16px;
+  
+  .col {
+    flex: 1; /* Divide o espaço igualmente */
+  }
+}

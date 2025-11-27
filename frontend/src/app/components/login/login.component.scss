@@ -1,0 +1,40 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 25px;
+  text-align: center;
+
+  mat-card-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-entrar {
+  height: 48px;
+  font-size: 1rem;
+}
+
+.divisor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  color: #888;
+  font-size: 0.9rem;
+}
