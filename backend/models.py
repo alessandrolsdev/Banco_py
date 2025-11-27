@@ -10,7 +10,6 @@ class Usuario(Base):
     cpf = Column(String, unique=True, index=True)
     data_nascimento = Column(String)
     endereco = Column(String)
-    # --- NOVO CAMPO ---
     senha_hash = Column(String) 
     
     contas = relationship("Conta", back_populates="dono")
@@ -21,6 +20,8 @@ class Conta(Base):
     agencia = Column(String, default="0001")
     numero = Column(Integer, unique=True)
     saldo = Column(Float, default=0.0)
+    # --- NOVO CAMPO: Limite customizável (Padrão 500) ---
+    limite = Column(Float, default=500.0) 
     usuario_id = Column(Integer, ForeignKey("usuarios.id"))
     
     dono = relationship("Usuario", back_populates="contas")

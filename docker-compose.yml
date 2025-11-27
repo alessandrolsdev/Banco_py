@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # --- Serviço do Python ---
+  backend:
+    build: ./backend
+    container_name: banco_new_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mapeia o arquivo do banco para fora do container (Persistência)
+      - ./backend/banco_new.db:/app/banco_new.db
+      # Permite editar código e atualizar sem rebuildar (Hot Reload)
+      - ./backend:/app
+    networks:
+      - banco-network
+
+  # --- Serviço do Angular ---
+  frontend:
+    build: ./frontend
+    container_name: banco_new_frontend
+    ports:
+      - "4200:4200"
+    volumes:
+      # Hot Reload do Frontend
+      - ./frontend/src:/app/src
+    depends_on:
+      - backend
+    networks:
+      - banco-network
+
+# Cria uma rede interna para eles conversarem
+networks:
+  banco-network:
+    driver: bridge

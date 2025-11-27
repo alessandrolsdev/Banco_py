@@ -1,5 +1,23 @@
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+/* Reset Básico */
+body { 
+  margin: 0; 
+  font-family: 'Poppins', sans-serif; /* A Nova Fonte */
+  background-color: #F4F7FE; /* Fundo Cinza-Azulado */
+}
 
-/* Se quiser resetar margens padrão do navegador, mantenha ou adicione: */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Variáveis do Designer (CSS Variables) */
+:root {
+  --primary-color: #4318FF;    /* Roxo Vibrante */
+  --secondary-text: #A3AED0;   /* Cinza Texto */
+  --title-text: #1B254B;       /* Azul Escuro Títulos */
+  --success-green: #05CD99;    /* Verde Dinheiro */
+  --surface-white: #FFFFFF;    /* Branco Puro */
+  --card-shadow: 0px 10px 30px rgba(112, 144, 176, 0.12); /* Sombra Suave */
+}
+
+/* Ajustes no Material para tirar o "padrão Google" */
+.mat-mdc-card {
+  border-radius: 20px !important;
+  box-shadow: var(--card-shadow) !important;
+  background-color: var(--surface-white) !important;
+}

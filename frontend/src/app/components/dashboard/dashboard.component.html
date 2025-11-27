@@ -1,94 +1,141 @@
-<div class="dashboard-container">
+<mat-sidenav-container class="sidenav-container">
+  
+  <mat-sidenav mode="side" opened class="sidebar">
+    <div class="logo-area">
+      <mat-icon>account_balance_wallet</mat-icon>
+      <h1>BANCO <span class="destaque">NEW</span></h1>
+    </div>
+    
+    <nav class="menu-lateral">
+      <a class="menu-item ativo"><mat-icon>dashboard</mat-icon> Dashboard</a>
+      <a class="menu-item"><mat-icon>people</mat-icon> Clientes</a>
+      <a class="menu-item"><mat-icon>credit_card</mat-icon> Cartões</a>
+      <a class="menu-item"><mat-icon>bar_chart</mat-icon> Relatórios</a>
+      <div class="spacer"></div>
+      <a class="menu-item" (click)="popularBanco()"><mat-icon>bug_report</mat-icon> Seed DB</a>
+      <a class="menu-item"><mat-icon>settings</mat-icon> Configurações</a>
+    </nav>
+  </mat-sidenav>
 
-  <mat-card class="main-card">
-    <mat-card-header>
-      <div mat-card-avatar class="header-icon">
-        <mat-icon>account_balance</mat-icon>
+  <mat-sidenav-content class="content-area">
+    
+    <header class="top-bar">
+      <div class="breadcrumb">
+        <small>Páginas / Dashboard</small>
+        <h2>Visão Geral</h2>
       </div>
-      <mat-card-title>Banco New</mat-card-title>
-      <mat-card-subtitle>Painel de Controle e Contas</mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-
-    <mat-card-content>
-
-      <div class="chart-container" *ngIf="!loading && !error && usuarios.length > 0">
-        <h3>Resumo Financeiro Global</h3>
-        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
-        </canvas>
+      
+      <div class="user-actions">
+        <div class="search-bar">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Buscar...">
+        </div>
+        <button mat-icon-button><mat-icon>notifications_none</mat-icon></button>
+        <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" class="admin-avatar">
       </div>
-      <div class="error-container" *ngIf="error">
-        <mat-icon color="warn">error</mat-icon>
-        <p>Não foi possível conectar ao servidor Python.</p>
-        <button mat-button color="warn" (click)="carregarDados()">Tentar Novamente</button>
+    </header>
+
+    <main>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="icon-box"><mat-icon>monetization_on</mat-icon></div>
+          <div class="info">
+            <p>Saldo sob Custódia</p>
+            <h3>{{ totalCustodia | currency:'BRL' }}</h3>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="icon-box icon-users"><mat-icon>group</mat-icon></div>
+          <div class="info">
+            <p>Clientes Ativos</p>
+            <h3>{{ totalClientes }}</h3>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="icon-box icon-trans"><mat-icon>swap_vert</mat-icon></div>
+          <div class="info">
+            <p>Transações (Total)</p>
+            <h3>{{ totalTransacoes }}</h3>
+          </div>
+        </div>
       </div>
 
-      <div class="empty-state" *ngIf="!loading && !error && usuarios.length === 0">
-        <p>Nenhum cliente cadastrado ainda.</p>
+      <div class="tabela-container">
+        <div class="tabela-header">
+          <h3>Clientes Recentes</h3>
+          <button mat-flat-button color="primary" (click)="abrirNovoCliente()">
+            <mat-icon>add</mat-icon> Novo Cliente
+          </button>
+        </div>
+
+        <table mat-table [dataSource]="usuarios">
+          
+          <ng-container matColumnDef="cliente">
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+            <td mat-cell *matCellDef="let user">
+              <div class="user-cell">
+                <img [src]="getAvatarUrl(user.nome)" class="table-avatar">
+                <div class="user-info">
+                  <span class="name">{{ user.nome }}</span>
+                  <small class="cpf">CPF: {{ user.cpf }}</small>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let user">
+              <span class="badge-status">Ativo</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="conta">
+            <th mat-header-cell *matHeaderCellDef> Conta </th>
+            <td mat-cell *matCellDef="let user"> C/C {{ user.contas[0]?.numero }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="saldo">
+            <th mat-header-cell *matHeaderCellDef> Saldo </th>
+            <td mat-cell *matCellDef="let user" class="saldo-text"> 
+              {{ user.contas[0]?.saldo | currency:'BRL' }} 
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let user" style="text-align: right;">
+              
+              <button mat-flat-button color="primary" class="btn-small" (click)="abrirOperacao()">
+                Operar
+              </button>
+
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="abrirExtrato(user.contas[0]?.numero)">
+                  <mat-icon>receipt_long</mat-icon> Ver Extrato
+                </button>
+                <button mat-menu-item (click)="abrirTransferencia(user.contas[0]?.numero)">
+                  <mat-icon>swap_horiz</mat-icon> Transferir
+                </button>
+                <button mat-menu-item (click)="abrirLimite(user.contas[0]?.numero, user.contas[0]?.limite)">
+                  <mat-icon>tune</mat-icon> Ajustar Limite
+                </button>
+              </mat-menu>
+
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
       </div>
 
-      <table mat-table [dataSource]="usuarios" class="tabela-contas" *ngIf="!loading && !error && usuarios.length > 0">
-
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let user"> #{{user.id}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef> Cliente </th>
-          <td mat-cell *matCellDef="let user" class="texto-destaque"> {{user.nome}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="cpf">
-          <th mat-header-cell *matHeaderCellDef> CPF </th>
-          <td mat-cell *matCellDef="let user"> {{user.cpf}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="conta">
-          <th mat-header-cell *matHeaderCellDef> Conta </th>
-          <td mat-cell *matCellDef="let user">
-            {{ user.contas[0]?.numero ? 'C/C ' + user.contas[0]?.numero : 'Sem conta' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="saldo">
-          <th mat-header-cell *matHeaderCellDef> Saldo Total </th>
-          <td mat-cell *matCellDef="let user" class="saldo-valor">
-            {{ user.contas[0]?.saldo | currency:'BRL' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef> Ações </th>
-          <td mat-cell *matCellDef="let user">
-
-            <button mat-icon-button color="warn" title="Fazer Transferência"
-              (click)="abrirTransferencia(user.contas[0]?.numero)" [disabled]="!user.contas[0]?.numero">
-              <mat-icon>swap_horiz</mat-icon>
-            </button>
-
-            <button mat-icon-button color="accent" title="Ver Extrato" (click)="abrirExtrato(user.contas[0]?.numero)"
-              [disabled]="!user.contas[0]?.numero">
-              <mat-icon>receipt_long</mat-icon>
-            </button>
-
-            <button mat-icon-button color="primary" title="Ver Detalhes">
-              <mat-icon>visibility</mat-icon>
-            </button>
-
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="linha-tabela"></tr>
-      </table>
-
-    </mat-card-content>
-
-    <mat-card-actions align="end">
-      <button mat-stroked-button color="primary" (click)="abrirNovoCliente()">Novo Cliente</button>
-      <button mat-flat-button color="primary" (click)="abrirOperacao()">Nova Operação</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
