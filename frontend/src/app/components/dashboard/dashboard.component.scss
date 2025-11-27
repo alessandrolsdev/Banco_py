@@ -181,3 +181,16 @@ table { width: 100%; }
     border-left: 4px solid var(--primary-color); /* Um detalhe visual bonito */
   }
 }
+.logout-btn {
+  margin-top: 10px;
+  color: #E53935 !important; /* Texto Vermelho */
+  font-weight: 600;
+  
+  mat-icon {
+    color: #E53935 !important; /* Ícone Vermelho */
+  }
+
+  &:hover {
+    background-color: #FFEBEE !important; /* Fundo vermelho bem claro ao passar o mouse */
+  }
+}

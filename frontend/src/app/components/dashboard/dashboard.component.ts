@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Apollo, gql } from 'apollo-angular';
+import { Router } from '@angular/router'; // <--- Importe o Router
 
 // Imports Visuais
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -16,7 +17,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-// Imports do Gráfico
+// Gráfico
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
@@ -56,15 +57,14 @@ export class DashboardComponent implements OnInit {
   loading = true;
   error: any;
   
-  // Controle de visibilidade do saldo (O que estava faltando!)
-  idsVisiveis = new Set<number>();
+  idsVisiveis = new Set<number>(); // Controle do Olhinho
 
   // KPIs
   totalCustodia = 0;
   totalClientes = 0;
   totalTransacoes = 0;
 
-  // Configuração do Gráfico
+  // Gráfico Config
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: { legend: { display: true, position: 'top' } }
@@ -80,7 +80,12 @@ export class DashboardComponent implements OnInit {
 
   displayedColumns: string[] = ['cliente', 'status', 'conta', 'saldo', 'acoes'];
 
-  constructor(private apollo: Apollo, private dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(
+    private apollo: Apollo, 
+    private dialog: MatDialog, 
+    private snackBar: MatSnackBar,
+    private router: Router // <--- Injeção do Router para o Logout
+  ) {}
 
   ngOnInit(): void { this.carregarDados(); }
 
@@ -90,49 +95,41 @@ export class DashboardComponent implements OnInit {
       this.usuarios = result?.data?.usuarios;
       this.loading = result.loading;
       this.error = result.error;
-      
       this.calcularKPIs();
       this.atualizarGrafico();
     });
   }
 
-  // --- Lógica do Olhinho (Restaurada) ---
-  toggleVisibilidade(id: number) {
-    if (this.idsVisiveis.has(id)) {
-      this.idsVisiveis.delete(id);
-    } else {
-      this.idsVisiveis.add(id);
-    }
+  // --- Função de Logout (NOVO) ---
+  logout() {
+    // 1. Limpa dados locais
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    
+    // 2. Limpa cache do Apollo para não mostrar dados antigos se logar com outra conta
+    this.apollo.client.resetStore();
+
+    // 3. Redireciona
+    this.router.navigate(['/login']);
+    this.snackBar.open('Logout realizado com sucesso.', 'Ok', { duration: 2000 });
   }
 
-  isVisivel(id: number): boolean {
-    return this.idsVisiveis.has(id);
+  // --- Outras Lógicas (Olho, Gráfico, KPIs) ---
+  toggleVisibilidade(id: number) {
+    if (this.idsVisiveis.has(id)) this.idsVisiveis.delete(id);
+    else this.idsVisiveis.add(id);
   }
-  // -------------------------------------
+  isVisivel(id: number): boolean { return this.idsVisiveis.has(id); }
 
   atualizarGrafico() {
-    let totalEntradas = 0;
-    let totalSaidas = 0;
-
-    this.usuarios?.forEach(user => {
-      user.contas.forEach((conta: any) => {
-        conta.transacoes.forEach((t: any) => {
-          if (t.tipo === 'depositar' || t.tipo === 'transferencia_recebida') {
-            totalEntradas += t.valor;
-          }
-          if (t.tipo === 'sacar' || t.tipo === 'transferencia_enviada') {
-            totalSaidas += t.valor;
-          }
-        });
-      });
-    });
-
+    let ent = 0, sai = 0;
+    this.usuarios?.forEach(u => u.contas.forEach((c:any) => c.transacoes.forEach((t:any) => {
+       if(t.tipo.includes('depositar') || t.tipo.includes('recebida')) ent += t.valor;
+       if(t.tipo.includes('sacar') || t.tipo.includes('enviada')) sai += t.valor;
+    })));
     this.barChartData = {
       labels: ['Total Acumulado'],
-      datasets: [
-        { data: [totalEntradas], label: 'Entradas (R$)', backgroundColor: '#05CD99' },
-        { data: [totalSaidas], label: 'Saídas (R$)', backgroundColor: '#E53935' }
-      ]
+      datasets: [ { data: [ent], label: 'Entradas (R$)', backgroundColor: '#05CD99' }, { data: [sai], label: 'Saídas (R$)', backgroundColor: '#E53935' } ]
     };
   }
 
@@ -140,7 +137,6 @@ export class DashboardComponent implements OnInit {
     this.totalClientes = this.usuarios?.length || 0;
     this.totalCustodia = 0;
     this.totalTransacoes = 0;
-
     this.usuarios?.forEach(u => {
       if(u.contas[0]) {
         this.totalCustodia += u.contas[0].saldo;
@@ -149,9 +145,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getAvatarUrl(nome: string): string {
-    return `https://ui-avatars.com/api/?name=${nome}&background=4318FF&color=fff&size=128`;
-  }
+  getAvatarUrl(nome: string): string { return `https://ui-avatars.com/api/?name=${nome}&background=4318FF&color=fff&size=128`; }
 
   popularBanco() {
     if(!confirm("Gerar dados de teste?")) return;
@@ -161,17 +155,13 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Funções de Modal
+  // Modais
   abrirNovoCliente() { this.dialog.open(UserDialogComponent, { width: '500px' }); }
-  
   abrirOperacao() { 
      const conta = this.usuarios[0]?.contas[0]?.numero;
      if(conta) this.dialog.open(OperationDialogComponent, { width: '400px', data: { numeroConta: conta } });
   }
-  
   abrirTransferencia(n: number) { if(n) this.dialog.open(TransferDialogComponent, { width: '400px', data: { numeroContaOrigem: n } }); }
-  
   abrirExtrato(n: number) { if(n) this.dialog.open(HistoryDialogComponent, { width: '600px', data: { numeroConta: n } }); }
-  
   abrirLimite(n: number, l: number) { this.dialog.open(LimitDialogComponent, { width: '300px', data: { numeroConta: n, limiteAtual: l } }); }
 }
