@@ -21,3 +21,51 @@ body {
   box-shadow: var(--card-shadow) !important;
   background-color: var(--surface-white) !important;
 }
+.mat-mdc-menu-panel {
+  background-color: #FFFFFF !important; /* Fundo Branco Sólido */
+  min-height: 40px !important;
+  border-radius: 12px !important; /* Cantos arredondados */
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15) !important; /* Sombra destacada */
+}
+
+.mat-mdc-menu-item {
+  color: var(--title-text) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.9rem !important;
+  min-height: 40px !important; /* Altura de cada item */
+  
+  mat-icon {
+    color: var(--secondary-text);
+    margin-right: 10px;
+  }
+  
+  &:hover {
+    background-color: #F4F7FE !important; /* Cor ao passar o mouse */
+    mat-icon { color: var(--primary-color); }
+  }
+}
+mat-mdc-menu-panel {
+  background-color: #FFFFFF !important;
+  /* ... */
+}
+
+/* === NOVA CORREÇÃO: DROPDOWN / SELECT === */
+.mat-mdc-select-panel {
+  background-color: #FFFFFF !important; /* Força o fundo branco */
+  border-radius: 12px !important;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2) !important; /* Sombra para destacar do fundo */
+  overflow: hidden !important; /* Garante que nada vaze */
+}
+
+/* Garante que cada opção também tenha fundo branco se necessário */
+.mat-mdc-option {
+  background-color: #FFFFFF;
+  
+  &:hover {
+    background-color: #F4F7FE !important; /* Efeito hover cinza claro */
+  }
+  
+  &.mat-mdc-option-active {
+    background-color: #F4F7FE !important;
+  }
+}

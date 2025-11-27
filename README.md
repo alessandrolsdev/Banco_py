@@ -1,79 +1,150 @@
-🏦🌟 Banco New - Sistema Bancário 🌟🏦
+# 🏦 Banco New - Sistema Bancário Full Stack
 
-Bem-vindo ao Sistema Bancário do Banco New! Este programa simula um ambiente bancário e permite que os usuários realizem diversas operações. Veja como usar o programa:
+![Status](https://img.shields.io/badge/Status-Concluído-success) ![Docker](https://img.shields.io/badge/Docker-Enabled-blue) ![GraphQL](https://img.shields.io/badge/API-GraphQL-pink)
 
-## Como Usar
-🔧📋
 
-1. Execute o código em um ambiente Python.
-2. Siga o menu exibido na tela para selecionar a operação desejada.
-3. Insira as informações necessárias para cada operação.
-4. O programa processará sua solicitação e exibirá mensagens informativas sobre o resultado.
-5. Após cada operação, você será redirecionado de volta ao menu para selecionar outra opção.
-6. Para sair do programa, selecione a opção "q" no menu.
+![Code Style](https://img.shields.io/badge/Code%20Style-Black-000000)
+![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi\&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular\&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-Ready-2496ED?logo=docker\&logoColor=white)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?logo=githubactions\&logoColor=white)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Funcionalidades
-⚙️📄
+Um sistema bancário moderno e completo, evoluído de um script CLI para uma arquitetura distribuída baseada em microsserviços, containerização e design system profissional.
 
-O programa oferece as seguintes funcionalidades:
+---
 
-- **Sacar (s):** Permite sacar uma quantia específica de dinheiro da sua conta. Ele verifica o saldo suficiente, o limite disponível e os limites de saque excedidos antes de concluir a operação.
-- **Depositar (d):** Permite fazer um depósito em sua conta. Ele verifica se o valor do depósito é positivo antes de concluir a operação.
-- **Extrato (e):** Exibe o extrato da sua conta, mostrando todas as operações realizadas e seu saldo atual.
-- **Novo Usuário (n):** Cria um novo usuário fornecendo informações pessoais necessárias, como nome, data de nascimento e endereço.
-- **Nova Conta (nc):** Cria uma nova conta para um usuário existente. Cada usuário pode ter várias contas.
-- **Filtrar Contas (fc):** Exibe uma lista de contas existentes juntamente com seus detalhes.
-- **Sair (q):** Sai do programa.
+## 📸 Screenshots
 
-## Variáveis
-🔢📊
+ * <img src="assets/preview.png" alt="Dashboard"> - Dashboard
+ * <img src="assets/login-preview.png" alt="Tela de Login"> - Tela de Login
 
-O programa usa as seguintes variáveis:
+---
 
-- `saldo`: Armazena o saldo atual da conta.
-- `limite`: Armazena o limite de saque disponível.
-- `extrato`: Armazena o histórico das operações realizadas.
-- `numero_saques`: Armazena o número de saques efetuados.
-- `LIMITE_SAQUES`: Armazena o número máximo de saques permitidos.
+## 🛠️ Tecnologias Utilizadas
 
-## Exemplo
-🔍📝
+### Backend (API & Regras de Negócio)
 
-Aqui está um exemplo de como usar o programa:
+* **Python 3.12** com **FastAPI**
+* **Strawberry GraphQL** (API tipada e moderna)
+* **SQLAlchemy** (ORM para persistência de dados)
+* **Auth JWT + Passlib** (Segurança e Criptografia)
+* **Docker** (Containerização)
+
+### Frontend (Interface & UX)
+
+* **Angular 18+** (Standalone Components & Signals)
+* **Angular Material 3** (Design System customizado)
+* **Apollo Client** (Consumo de GraphQL com Cache)
+* **Ng2-Charts** (Visualização de dados financeiros)
+* **Guards & Interceptors** (Segurança de Rotas)
+
+---
+
+## ✨ Funcionalidades
+
+* **🔐 Autenticação Segura:** Login com JWT e proteção de rotas.
+* **💸 Operações Financeiras:** Depósitos e saques com validação de saldo e limites diários.
+* **🔄 Transferências (PIX):** Transações atômicas entre contas (Tudo ou Nada).
+* **📊 Dashboard Interativo:** KPIs em tempo real, gráficos de fluxo de caixa e gestão visual.
+* **📑 Extrato Inteligente:** Histórico detalhado de movimentações.
+* **⚙️ Configurações:** Ajuste dinâmico de limites de transação por usuário.
+* **🐳 Infraestrutura:** Ambiente de desenvolvimento 100% Dockerizado.
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+> Você não precisa instalar Python ou Node.js localmente se tiver o **Docker**.
+
+### Pré-requisitos
+
+* Docker
+* Docker Compose
+
+### Passo a Passo
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/alessandrolsdev/banco-new.git
+cd banco-new
+```
+
+2. Suba os containers (modo desenvolvimento):
+
+```bash
+docker-compose up --build
+```
+
+3. Acesse a aplicação:
+
+* Frontend (App): `http://localhost:4200`
+* Backend (GraphiQL / Playground): `http://localhost:8000/graphql`
+
+### 🧪 Dados de Teste (Seed)
+
+Para popular o banco com dados fictícios (ex.: Elon Musk, Jeff Bezos, usuários de teste):
+
+* Acesse o Dashboard.
+* No menu lateral, clique em **Seed DB**.
+* Confirme a operação.
+
+> Observação: se preferir rodar o seed via container, adicione um comando/entrypoint no `docker-compose` para executar o script de seed automaticamente ou rode uma task dentro do container backend:
+
+```bash
+# exemplo (ajuste conforme seu projeto)
+docker-compose exec backend python scripts/seed_db.py
+```
+
+---
+
+## 🏗️ Arquitetura
+
+O projeto segue uma arquitetura separada (Monorepo):
 
 ```
-*******************Banco New*******************
-Bem-vindo ao nosso sistema bancário!
-Por favor, insira as iniciais abaixo para realizar operações!
-
-[s] Sacar
-[d] Depositar
-[e] Extrato
-[n] Novo Usuário
-[nc] Nova Conta
-[fc] Filtrar Contas
-[q] Sair
-
-***********************************************
-=> s
-*******************Banco New*******************
-Opção de saque selecionada!
-Digite o valor para sacar: 50
-
-Aguarde enquanto processamos sua solicitação...
-Saque realizado com sucesso!
-
-A sua conta agora possui um novo saldo de R$450.00
-Confira o Extrato para mais detalhes!
-Retornando para a tela inicial... Aguarde...
+/
+├── backend/        # API Python (FastAPI + Strawberry)
+│   ├── main.py     # Entrypoint
+│   ├── schema.py   # Lógica GraphQL
+│   ├── models.py   # Tabelas do Banco
+│   └── auth.py     # Segurança
+│
+├── frontend/       # SPA Angular
+│   ├── src/app/components  # Telas e Modais
+│   ├── src/app/guards      # Proteção de Rotas
+│   └── src/assets          # Imagens e Estilos
+│
+└── docker-compose.yml # Orquestração
 ```
 
-## Observações
-⚠️📝
+---
 
-- Certifique-se de inserir valores válidos ao fazer depósitos ou saques.
-- Este programa é para fins educacionais e simula operações bancárias básicas.
+## 🧩 Dicas de Desenvolvimento
 
-🌟🏦🌟
+* Use `docker-compose.override.yml` para ajustes locais (por exemplo, volumes com código fonte montado).
+* Para desenvolvimento frontend, ative o live-reload do Angular dentro do container ou rode `ng serve` localmente apontando para a API via `proxy.conf.json`.
+* Garanta que variáveis sensíveis (JWT_SECRET, DATABASE_URL) fiquem em `.env` e não sejam comitadas.
 
-Para usar o código atualizado, substitua o código existente pelo trecho de código fornecido no seu ambiente Python. Sinta-se à vontade para modificar e expandir ainda mais o programa para adicionar mais funcionalidades, se necessário.
+---
+
+## ✅ Checklist antes de produção
+
+* [ ] Revisar políticas de segurança e adicionar rate-limiting
+* [ ] Ativar HTTPS e certificados (nginx / Traefik)
+* [ ] Revisar limites e regras de negócio (limites diários, antifraude)
+* [ ] Backups e migrações automatizadas
+* [ ] Tests unitários e E2E
+
+---
+
+## ✍️ Contribuições
+
+Contribuições são bem-vindas! Abra um *issue* ou envie um *pull request* com melhorias.
+
+---
+
+Made with 💜 by alessandrolsdev

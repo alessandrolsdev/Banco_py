@@ -1,7 +1,9 @@
 <h2 mat-dialog-title>Nova Transação</h2>
-<h3 class="conta-info">Conta Destino: #{{ data.numeroConta }}</h3>
 
-<mat-dialog-content>
+<mat-dialog-content class="conteudo-modal">
+  
+  <h3 class="conta-info">Conta Destino: #{{ data.numeroConta }}</h3>
+
   <form [formGroup]="form" class="form-operacao">
     
     <mat-form-field appearance="outline">

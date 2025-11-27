@@ -152,3 +152,32 @@ table { width: 100%; }
 }
 
 .btn-small { height: 32px; line-height: 32px; font-size: 12px; margin-right: 10px; }
+
+.chart-section {
+  margin-top: 40px;
+  padding-bottom: 20px;
+  /* Removemos o 'display: flex' e 'justify-content' pois agora ele vai preencher tudo */
+}
+
+/* O Cartão do gráfico */
+.chart-card {
+  background: white;
+  padding: 25px; /* Um pouco mais de respiro interno */
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  
+  /* === AQUI ESTÁ A MUDANÇA === */
+  width: 100%;      /* Ocupa toda a largura do container pai */
+  max-width: 100%;  /* Remove o limite de 500px */
+  height: auto;
+  
+  h3 {
+    margin: 0 0 20px 0;
+    color: var(--title-text);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: left; /* Título alinhado à esquerda fica melhor em cards largos */
+    padding-left: 10px;
+    border-left: 4px solid var(--primary-color); /* Um detalhe visual bonito */
+  }
+}

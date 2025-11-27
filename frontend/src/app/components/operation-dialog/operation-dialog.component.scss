@@ -1,14 +1,36 @@
+/* Remove a barra de rolagem indesejada */
+.conteudo-modal {
+  overflow: hidden !important; 
+  padding-top: 10px;
+}
+
 .form-operacao {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
-  padding-top: 10px;
-  gap: 10px;
+  gap: 16px; /* Espaço vertical entre os inputs */
+  min-width: 350px;
+  padding: 10px 5px; /* Um pouco de respiro nas laterais */
+}
+
+/* Garante largura total */
+mat-form-field {
+  width: 100%;
 }
 
 .conta-info {
   margin-top: 0;
-  color: #666;
-  font-size: 0.9rem;
-  padding: 0 24px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  /* Garante que não corte o texto a esquerda */
+  padding-left: 2px; 
+}
+
+/* Ajuste das opções do Select */
+::ng-deep .mat-mdc-option {
+  font-family: 'Poppins', sans-serif !important;
+  
+  &[ng-reflect-value="depositar"] { color: var(--success-green); }
+  &[ng-reflect-value="sacar"] { color: #e53935; }
 }
